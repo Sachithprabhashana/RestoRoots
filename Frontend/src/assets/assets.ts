@@ -5,7 +5,7 @@ export const menu_list = [
     { menu_name: "Sandwich", menu_image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=300" },
     { menu_name: "Cake", menu_image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&q=80&w=300" },
     { menu_name: "Pure Veg", menu_image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=300" },
-    { menu_name: "Pasta", menu_image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281226?auto=format&fit=crop&q=80&w=300" },
+    { menu_name: "Pasta", menu_image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1p9Hv8ERgoZLf4r9qD5AqPLP2a6R9-Y_7N95kMXN7Vg&s=10" },
     { menu_name: "Noodles", menu_image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=300" }
 ];
 

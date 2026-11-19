@@ -15,6 +15,7 @@ interface StoreContextType {
     cartItems: { [key: string]: number };
     addToCart: (itemId: string) => void;
     removeFromCart: (itemId: string) => void;
+    clearCart: () => void;
     getTotalCartAmount: () => number;
     url: string;
 }
@@ -44,6 +45,10 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
             }
             return updatedCart;
         });
+    };
+
+    const clearCart = () => {
+        setCartItems({});
     };
 
     const getTotalCartAmount = () => {
@@ -79,6 +84,7 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         cartItems,
         addToCart,
         removeFromCart,
+        clearCart,
         getTotalCartAmount,
         url,
     };

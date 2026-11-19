@@ -5,6 +5,8 @@ import { Header } from './components/Header';
 import { ExploreMenu } from './components/ExploreMenu';
 import { FoodDisplay } from './components/FoodDisplay';
 import { Cart } from './pages/Cart';
+import PlaceOrder from './pages/PlaceOrder';
+import { Verify } from './pages/Verify';
 
 const Home: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
@@ -25,7 +27,11 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart navigateToCheckout={() => alert('Proceeding to Stripe Checkout!')} />} />
+          <Route path="/cart" element={<Cart />} />
+          {/* element={<Cart navigateToCheckout={() => alert('Proceeding to Stripe Checkout!')} />} */}
+          <Route path="/order" element={<PlaceOrder />} />
+          <Route path="/verify" element={<Verify />} />
+
         </Routes>
       </div>
     </Router>

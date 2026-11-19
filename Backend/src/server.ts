@@ -1,16 +1,18 @@
+import 'dotenv/config';
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import foodRouter from './routes/foodRoute.js';
+import orderRouter from './routes/orderRoute';
 
-dotenv.config();
+
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors());
+app.use('/api/order', orderRouter);
 
 connectDB();
 

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import orderModel from '../models/orderModel.js';
+import { AuthRequest } from '../middleware/auth.js';
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-export const placeOrder = async (req: Request, res: Response): Promise<void> => {
+export const placeOrder = async (req: AuthRequest, res: Response): Promise<void> => {
     try {
         const secretKey = process.env.STRIPE_SECRET_KEY;
         if (!secretKey) {
@@ -23,6 +24,7 @@ export const placeOrder = async (req: Request, res: Response): Promise<void> => 
         // 1. Save order in MongoDB with payment: false initially
         const newOrder = new orderModel({
             items,
+            userId: req.userId,
             amount,
             address,
             payment: false,
@@ -85,5 +87,15 @@ export const verifyOrder = async (req: Request, res: Response): Promise<void> =>
     } catch (error) {
         console.error('Error verifying order:', error);
         res.status(500).json({ success: false, message: 'Error verifying payment' });
+    }
+};
+
+export const userOrders = async (req: AuthRequest, res: Response): Promise<void> => {
+    try {
+        const orders = await orderModel.find({ userId: req.userId }).sort({ createdAt: -1 });
+        res.status(200).json({ success: true, data: orders });
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        res.status(500).json({ success: false, message: 'Error fetching orders' });
     }
 };

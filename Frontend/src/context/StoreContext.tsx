@@ -8,6 +8,7 @@ export interface FoodItemType {
     price: number;
     image: string;
     category: string;
+
 }
 
 interface StoreContextType {
@@ -18,12 +19,15 @@ interface StoreContextType {
     clearCart: () => void;
     getTotalCartAmount: () => number;
     url: string;
+    token: string;
+    setToken: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<{ [key: string]: number }>({});
+    const [token, setToken] = useState<string>('');
     const [food_list, setFoodList] = useState<FoodItemType[]>([]);
     const url = "http://localhost:4000";
 
@@ -79,6 +83,13 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         fetchFoodList();
     }, []);
 
+    useEffect(() => {
+        const savedToken = localStorage.getItem('token');
+        if (savedToken) {
+            setToken(savedToken);
+        }
+    }, []);
+
     const contextValue = {
         food_list,
         cartItems,
@@ -87,6 +98,8 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         clearCart,
         getTotalCartAmount,
         url,
+        token,
+        setToken,
     };
 
     return (

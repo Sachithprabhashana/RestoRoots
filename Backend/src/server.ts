@@ -4,6 +4,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import foodRouter from './routes/foodRoute.js';
 import orderRouter from './routes/orderRoute';
+import userRouter from './routes/userRoute.js';
 
 
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 app.use('/api/order', orderRouter);
+app.use('/api/user', userRouter);
 
 connectDB();
 

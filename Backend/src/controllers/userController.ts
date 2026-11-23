@@ -28,10 +28,13 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         }
 
         const token = createToken(String(user._id));
+        const isAdmin = Boolean(user.isAdmin);
+
         res.status(200).json({
             success: true,
             token,
-            user: { id: user._id, name: user.name, email: user.email },
+            isAdmin,
+            user: { id: user._id, name: user.name, email: user.email, isAdmin },
         });
     } catch (error) {
         console.error('Login error:', error);

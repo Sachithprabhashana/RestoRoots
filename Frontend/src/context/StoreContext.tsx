@@ -8,7 +8,6 @@ export interface FoodItemType {
     price: number;
     image: string;
     category: string;
-
 }
 
 interface StoreContextType {
@@ -20,14 +19,21 @@ interface StoreContextType {
     getTotalCartAmount: () => number;
     url: string;
     token: string;
-    setToken: React.Dispatch<React.SetStateAction<string>>
+    setToken: React.Dispatch<React.SetStateAction<string>>;
+    isAdmin: boolean;
+    setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<{ [key: string]: number }>({});
-    const [token, setToken] = useState<string>('');
+    const [token, setToken] = useState<string>(
+        () => localStorage.getItem('token') || ''
+    );
+    const [isAdmin, setIsAdmin] = useState<boolean>(
+        () => localStorage.getItem('isAdmin') === 'true'
+    );
     const [food_list, setFoodList] = useState<FoodItemType[]>([]);
     const url = "http://localhost:4000";
 
@@ -68,8 +74,6 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         return totalAmount;
     };
 
-
-
     useEffect(() => {
         const fetchFoodList = async () => {
             try {
@@ -85,12 +89,16 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     useEffect(() => {
         const savedToken = localStorage.getItem('token');
+        const savedAdmin = localStorage.getItem('isAdmin') === 'true';
         if (savedToken) {
             setToken(savedToken);
+            setIsAdmin(savedAdmin);
+        } else {
+            setIsAdmin(false);
         }
     }, []);
 
-    const contextValue = {
+    const contextValue: StoreContextType = {
         food_list,
         cartItems,
         addToCart,
@@ -100,6 +108,8 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         url,
         token,
         setToken,
+        isAdmin,
+        setIsAdmin,
     };
 
     return (

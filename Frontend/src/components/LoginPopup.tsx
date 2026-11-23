@@ -36,8 +36,13 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ setShowLogin }) => {
         try {
             const response = await axios.post(`${context.url}${endpoint}`, data);
             if (response.data.success) {
+                const adminFlag = Boolean(
+                    response.data.isAdmin ?? response.data.user?.isAdmin
+                );
                 context.setToken(response.data.token);
+                context.setIsAdmin(adminFlag);
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('isAdmin', String(adminFlag));
                 setShowLogin(false);
             } else {
                 setErrorMsg(response.data.message || 'Authentication failed');

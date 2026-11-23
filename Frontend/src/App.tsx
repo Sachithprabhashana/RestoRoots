@@ -13,6 +13,7 @@ import { Admin } from './pages/Admin';
 import { AddItems } from './pages/admin/AddItems';
 import { ListItems } from './pages/admin/ListItems';
 import { AdminOrders } from './pages/admin/AdminOrders';
+import { Footer } from './components/Footer';
 
 const Home: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
@@ -33,7 +34,7 @@ const App: React.FC = () => {
   return (
     <Router>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Navbar setShowLogin={setShowLogin} />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -48,6 +49,7 @@ const App: React.FC = () => {
             <Route path="orders" element={<AdminOrders />} />
           </Route>
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

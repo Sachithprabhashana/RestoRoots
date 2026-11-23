@@ -67,7 +67,7 @@ export const PlaceOrder: React.FC = () => {
     return (
         <form
             onSubmit={placeOrder}
-            className="w-full max-w-[1280px] mx-auto px-6 my-12 grid grid-cols-1 lg:grid-cols-3 gap-10"
+            className="w-full max-w-[1280px] mx-auto px-6 my-12 mt-30 grid grid-cols-1 lg:grid-cols-3 gap-10"
         >
             {/* Left Side: Delivery Information */}
             <div className="p-6 bg-white border border-gray-100 shadow-sm lg:col-span-2 rounded-2xl sm:p-8">

@@ -15,7 +15,7 @@ export const Cart: React.FC = () => {
     const total = subtotal + deliveryFee;
 
     return (
-        <div className="w-full max-w-[1280px] mx-auto px-6 my-12">
+        <div className="w-full max-w-[1280px]  mx-auto px-6 pt-30 pb-12">
             <h1 className="mb-8 text-2xl font-semibold text-gray-800 md:text-3xl">Your Cart</h1>
 
             {subtotal === 0 ? (

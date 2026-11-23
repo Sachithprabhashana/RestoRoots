@@ -13,6 +13,18 @@ const app: Express = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
+
+const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        credentials: true,
+    })
+);
 app.use(cors());
 app.use('/api/order', orderRouter);
 app.use('/api/user', userRouter);
@@ -29,3 +41,4 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+

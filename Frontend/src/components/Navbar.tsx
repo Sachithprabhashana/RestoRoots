@@ -58,16 +58,16 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
                 {[
                     { id: 'home', label: 'home', href: '/' },
                     { id: 'menu', label: 'menu', href: '/#explore-menu' },
-                    { id: 'mobile-app', label: 'mobile app', href: '#app-download' },
-                    { id: 'contact-us', label: 'contact us', href: '#footer' },
+                    { id: 'mobile-app', label: 'mobile app', href: '/#app-download' },
+                    { id: 'contact-us', label: 'contact us', href: '/#footer' },
                 ].map((item) => (
                     <li key={item.id}>
                         <a
                             href={item.href}
                             onClick={() => setMenu(item.id)}
                             className={`pb-1 transition-all cursor-pointer ${menu === item.id
-                                ? 'border-b-2 border-[#49557e] text-[#262626] font-medium'
-                                : 'hover:text-[#FF4C24]'
+                                    ? 'border-b-2 border-[#49557e] text-[#262626] font-medium'
+                                    : 'hover:text-[#FF4C24]'
                                 }`}
                         >
                             {item.label}

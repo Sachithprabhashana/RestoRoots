@@ -22,6 +22,10 @@ interface StoreContextType {
     setToken: React.Dispatch<React.SetStateAction<string>>;
     isAdmin: boolean;
     setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+    isSearchOpen: boolean;
+    setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const StoreContext = createContext<StoreContextType | null>(null);
@@ -35,6 +39,8 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         () => localStorage.getItem('isAdmin') === 'true'
     );
     const [food_list, setFoodList] = useState<FoodItemType[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
     const url = "http://localhost:4000";
 
     const addToCart = (itemId: string) => {
@@ -110,6 +116,10 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setToken,
         isAdmin,
         setIsAdmin,
+        searchQuery,
+        setSearchQuery,
+        isSearchOpen,
+        setIsSearchOpen
     };
 
     return (

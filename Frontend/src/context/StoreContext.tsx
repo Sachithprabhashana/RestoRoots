@@ -28,6 +28,8 @@ interface StoreContextType {
     setIsSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+
+// eslint-disable-next-line react-refresh/only-export-components
 export const StoreContext = createContext<StoreContextType | null>(null);
 
 export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -41,7 +43,7 @@ export const StoreContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const [food_list, setFoodList] = useState<FoodItemType[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-    const url = "http://localhost:4000";
+    const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
     const addToCart = (itemId: string) => {
         setCartItems((prev) => ({

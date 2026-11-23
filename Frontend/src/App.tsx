@@ -9,6 +9,10 @@ import PlaceOrder from './pages/PlaceOrder';
 import { Verify } from './pages/Verify';
 import { LoginPopup } from './components/LoginPopup';
 import { MyOrders } from './pages/MyOrders';
+import { Admin } from './pages/Admin';
+import { AddItems } from './pages/admin/AddItems';
+import { ListItems } from './pages/admin/ListItems';
+import { AdminOrders } from './pages/admin/AdminOrders';
 
 const Home: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
@@ -38,7 +42,11 @@ const App: React.FC = () => {
           <Route path="/order" element={<PlaceOrder />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/myorders" element={<MyOrders />} />
-
+          <Route path="/admin" element={<Admin />}>
+            <Route path="add" element={<AddItems />} />
+            <Route path="list" element={<ListItems />} />
+            <Route path="orders" element={<AdminOrders />} />
+          </Route>
         </Routes>
       </div>
     </Router>

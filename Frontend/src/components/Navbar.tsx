@@ -14,7 +14,9 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
         context?.setToken('');
+        context?.setIsAdmin(false);
         navigate('/');
     };
 
@@ -68,6 +70,14 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
                     </button>
                 ) : (
                     <div className="flex items-center gap-4">
+                        {context.isAdmin && (
+                            <button
+                                onClick={() => navigate('/admin/orders')}
+                                className="text-sm font-semibold text-[#FF4C24] hover:underline transition cursor-pointer"
+                            >
+                                Admin Panel
+                            </button>
+                        )}
                         <button
                             onClick={() => navigate('/myorders')}
                             className="text-sm font-medium text-[#49557e] hover:text-[#FF4C24] transition cursor-pointer"

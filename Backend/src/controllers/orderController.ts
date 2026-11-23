@@ -99,3 +99,26 @@ export const userOrders = async (req: AuthRequest, res: Response): Promise<void>
         res.status(500).json({ success: false, message: 'Error fetching orders' });
     }
 };
+
+// List all orders for Admin Panel
+export const listOrders = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const orders = await orderModel.find({}).sort({ createdAt: -1 });
+        res.status(200).json({ success: true, data: orders });
+    } catch (error) {
+        console.error('Error listing all orders:', error);
+        res.status(500).json({ success: false, message: 'Error fetching orders' });
+    }
+};
+
+// Update order status from Admin Panel
+export const updateStatus = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { orderId, status } = req.body;
+        await orderModel.findByIdAndUpdate(orderId, { status });
+        res.status(200).json({ success: true, message: 'Status Updated' });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ success: false, message: 'Error updating status' });
+    }
+};

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Search, ShoppingBag } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../context/StoreContext';
 
 interface NavbarProps {
@@ -11,6 +11,7 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
     const [menu, setMenu] = useState<string>('home');
     const context = useContext(StoreContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
     if (!context) {
         return null;
@@ -46,10 +47,38 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
         });
     };
 
+    const handleNavSelect = (
+        e: React.MouseEvent<HTMLAnchorElement>,
+        item: { id: string; href: string; sectionId?: string }
+    ) => {
+        setMenu(item.id);
+
+        if (item.sectionId) {
+            e.preventDefault();
+            const scrollToSection = () => {
+                const el = document.getElementById(item.sectionId!);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+
+            if (location.pathname !== '/') {
+                navigate('/');
+                setTimeout(scrollToSection, 120);
+            } else {
+                scrollToSection();
+            }
+        }
+    };
+
     return (
         <nav className="w-full max-w-[1280px] mx-auto px-6 py-6 flex flex-wrap items-center justify-between fixed top-3 left-0 right-0 z-50 bg-white/70 backdrop-blur-md shadow-md rounded-2xl">
             {/* Brand Logo */}
-            <Link to="/" className="text-3xl md:text-4xl font-bold text-[#FF4C24] tracking-tight">
+            <Link
+                to="/"
+                onClick={() => setMenu('home')}
+                className="text-3xl md:text-4xl font-bold text-[#FF4C24] tracking-tight"
+            >
                 RestoRoots.
             </Link>
 
@@ -57,17 +86,17 @@ export const Navbar: React.FC<NavbarProps> = ({ setShowLogin }) => {
             <ul className="hidden md:flex items-center gap-8 text-[#49557e] text-[17px] font-normal">
                 {[
                     { id: 'home', label: 'home', href: '/' },
-                    { id: 'menu', label: 'menu', href: '/#explore-menu' },
-                    { id: 'mobile-app', label: 'mobile app', href: '/#app-download' },
-                    { id: 'contact-us', label: 'contact us', href: '/#footer' },
+                    { id: 'menu', label: 'menu', href: '/#explore-menu', sectionId: 'explore-menu' },
+                    { id: 'mobile-app', label: 'mobile app', href: '/#app-download', sectionId: 'app-download' },
+                    { id: 'contact-us', label: 'contact us', href: '/#footer', sectionId: 'footer' },
                 ].map((item) => (
                     <li key={item.id}>
                         <a
                             href={item.href}
-                            onClick={() => setMenu(item.id)}
+                            onClick={(e) => handleNavSelect(e, item)}
                             className={`pb-1 transition-all cursor-pointer ${menu === item.id
-                                    ? 'border-b-2 border-[#49557e] text-[#262626] font-medium'
-                                    : 'hover:text-[#FF4C24]'
+                                ? 'border-b-2 border-[#49557e] text-[#262626] font-medium'
+                                : 'hover:text-[#FF4C24]'
                                 }`}
                         >
                             {item.label}

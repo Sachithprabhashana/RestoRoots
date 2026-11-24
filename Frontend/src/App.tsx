@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Header } from './components/Header';
 import { ExploreMenu } from './components/ExploreMenu';
 import { FoodDisplay } from './components/FoodDisplay';
+import { AppDownload } from './components/AppDownload';
 import { Cart } from './pages/Cart';
 import PlaceOrder from './pages/PlaceOrder';
 import { Verify } from './pages/Verify';
@@ -18,13 +19,12 @@ import { Footer } from './components/Footer';
 const Home: React.FC = () => {
   const [category, setCategory] = useState<string>("All");
 
-
   return (
     <div>
       <Header />
       <ExploreMenu category={category} setCategory={setCategory} />
       <FoodDisplay category={category} />
-
+      <AppDownload expoUrl="exp://192.168.8.129:8081" />
     </div>
   );
 };

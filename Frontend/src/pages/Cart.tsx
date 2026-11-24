@@ -11,7 +11,7 @@ export const Cart: React.FC = () => {
 
     const { food_list, cartItems, addToCart, removeFromCart, getTotalCartAmount } = context;
     const subtotal = getTotalCartAmount();
-    const deliveryFee = subtotal === 0 ? 0 : 2;
+    const deliveryFee = subtotal === 0 ? 0 : 2.5;
     const total = subtotal + deliveryFee;
 
     return (

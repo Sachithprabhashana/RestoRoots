@@ -17,6 +17,7 @@ import { Plus, Minus } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MobileNavbar } from './src/components/MobileNavbar';
 import { CategoryBar } from './src/components/CategoryBar';
+import { MobileFooter } from './src/components/MobileFooter';
 import { CartScreen } from './src/screens/CartScreen';
 import { LoginScreen } from './src/screens/LoginScreen';
 import { PlaceOrderScreen } from './src/screens/PlaceOrderScreen';
@@ -33,6 +34,19 @@ interface FoodItem {
 }
 
 const API_BASE_URL = 'http://192.168.8.129:4000';
+
+const resolveFoodImageUri = (image: string | undefined, apiBaseUrl: string): string => {
+  if (!image) return '';
+  const trimmed = image.trim();
+  const baseUrl = apiBaseUrl.replace(/\/+$/, '');
+
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, baseUrl);
+  }
+
+  const cleanPath = trimmed.startsWith('/') ? trimmed : `/images/${trimmed}`;
+  return `${baseUrl}${cleanPath}`;
+};
 
 export default function App() {
   const [foods, setFoods] = useState<FoodItem[]>([]);
@@ -284,6 +298,21 @@ export default function App() {
                   onSelectCategory={setSelectedCategory}
                 />
               }
+              ListFooterComponent={
+                <MobileFooter
+                  onOpenMenu={() => setScreen('menu')}
+                  onOpenCart={() => setScreen('cart')}
+                  onOpenOrders={() => {
+                    if (!token) {
+                      setScreen('login');
+                    } else {
+                      setScreen('my-orders');
+                    }
+                  }}
+                  isAdmin={isAdmin}
+                  onOpenAdmin={() => setScreen('admin')}
+                />
+              }
               ListEmptyComponent={
                 <View style={styles.emptyBox}>
                   <Text style={styles.emptyText}>No matching dishes found.</Text>
@@ -291,9 +320,23 @@ export default function App() {
               }
               renderItem={({ item }) => {
                 const qty = cartItems[item._id] || 0;
+                const imageUri = resolveFoodImageUri(item.image, API_BASE_URL);
                 return (
                   <View style={styles.card}>
-                    <Image source={{ uri: item.image }} style={styles.dishImage} />
+                    <Image
+                      source={imageUri ? { uri: imageUri } : undefined}
+                      style={styles.dishImage}
+                      resizeMode="cover"
+                      onError={(e) => {
+                        console.log(
+                          'Dish image error:',
+                          item.name,
+                          'URI:',
+                          imageUri,
+                          e.nativeEvent.error
+                        );
+                      }}
+                    />
                     <View style={styles.cardBody}>
                       <View style={styles.row}>
                         <Text style={styles.dishName}>{item.name}</Text>
